@@ -1,6 +1,7 @@
 package uiparts
 
 import (
+	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 
 	types "github.com/phobos42/passgo/utils"
@@ -39,14 +40,35 @@ func setupFolders() {
 	selectionPart.foldersList = tview.NewList()
 	selectionPart.foldersList.SetTitle("Folders")
 	setlistproperties(selectionPart.foldersList)
+
+	newButton := tview.NewButton("New").SetSelectedFunc(newFolderButton)
+	editButton := tview.NewButton("Edit").SetSelectedFunc(editFolderButton)
+	deleteButton := tview.NewButton("Delete").SetSelectedFunc(deleteFolderButton)
+	buttonLayout := tview.NewFlex().SetDirection(tview.FlexColumn)
+	prompt := tview.NewTextView().SetText("Prompt")
+	inputField := tview.NewInputField()
+	buttonLayout.AddItem(newButton, 5, 1, false)
+	buttonLayout.AddItem(editButton, 5, 1, false)
+	buttonLayout.AddItem(deleteButton, 7, 1, false)
+	buttonLayout.AddItem(prompt, 10, 1, false)
+	buttonLayout.AddItem(inputField, 30, 1, false)
+
 	selectionPart.foldersLayout = tview.NewFlex()
-	selectionPart.foldersLayout.AddItem(selectionPart.foldersList, 0, 1, true)
+	setLayoutProperties("Folders", selectionPart.foldersLayout)
+	// selectionPart.foldersLayout.SetBorder(true)
+	// selectionPart.foldersLayout.SetTitle("Folders")
+	// selectionPart.foldersLayout.SetTitleAlign(0)
+	selectionPart.foldersLayout.SetDirection(tview.FlexRow)
+	selectionPart.foldersLayout.AddItem(selectionPart.foldersList, 0, 9, true)
+
+	selectionPart.foldersLayout.AddItem(buttonLayout, 0, 1, false)
 }
 func setupEntries() {
 	selectionPart.entriesList = tview.NewList()
 	selectionPart.entriesList.SetTitle("Entries")
 	setlistproperties(selectionPart.entriesList)
 	selectionPart.entriesLayout = tview.NewFlex()
+	setLayoutProperties("Entries", selectionPart.entriesLayout)
 	selectionPart.entriesLayout.AddItem(selectionPart.entriesList, 0, 1, true)
 }
 func setupFields() {
@@ -54,6 +76,7 @@ func setupFields() {
 	selectionPart.fieldsList.SetTitle("Fields")
 	setlistproperties(selectionPart.fieldsList)
 	selectionPart.fieldsLayout = tview.NewFlex()
+	setLayoutProperties("Fields", selectionPart.fieldsLayout)
 	selectionPart.fieldsLayout.AddItem(selectionPart.fieldsList, 0, 1, true)
 
 }
@@ -66,8 +89,16 @@ func setupOuterLayout() {
 }
 func setlistproperties(list *tview.List) {
 	list.ShowSecondaryText(false)
-	list.SetBorder(true)
 	list.SetTitleAlign(0)
+	list.SetBackgroundColor(tcell.ColorDefault)
+	list.SetSelectedBackgroundColor(tcell.ColorDefault)
+	list.SetSelectedTextColor(tcell.ColorBlue)
+	list.SetSelectedFocusOnly(false)
+}
+func setLayoutProperties(title string, layout *tview.Flex) {
+	layout.SetTitle(title)
+	layout.SetBorder(true)
+	layout.SetTitleAlign(0)
 }
 
 func FillUI(folders types.Allfolders) {
@@ -97,8 +128,8 @@ func folderSelected() {
 	name, _ := selectionPart.foldersList.GetItemText(index)
 	selectionPart.entriesList.Clear()
 	fillEntries((*selectionPart.data)[name])
-	selectionPart.app.SetFocus(selectionPart.entriesLayout)
-	selectionPart.outerLayout.ResizeItem(selectionPart.foldersLayout, 0, 10)
+	//selectionPart.app.SetFocus(selectionPart.entriesLayout)
+	//selectionPart.outerLayout.ResizeItem(selectionPart.foldersLayout, 0, 10)
 
 }
 func entrySelected() {
@@ -108,5 +139,15 @@ func entrySelected() {
 	name, _ := selectionPart.entriesList.GetItemText(index)
 	selectionPart.fieldsList.Clear()
 	fillFields((*selectionPart.data)[folderName][name])
-	selectionPart.app.SetFocus(selectionPart.fieldsLayout)
+	//selectionPart.app.SetFocus(selectionPart.fieldsLayout)
+}
+
+func newFolderButton() {
+
+}
+func editFolderButton() {
+
+}
+func deleteFolderButton() {
+
 }
