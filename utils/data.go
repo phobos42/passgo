@@ -1,5 +1,7 @@
 package types
 
+import "github.com/rivo/tview"
+
 //map name of folder to folder
 type Allfolders map[string]Folder
 
@@ -16,20 +18,26 @@ type Field struct {
 	Hide  bool
 }
 
-// func addFolder(title string) {
-// 	//check if folder exists
-// 	if application.folders["title"] != nil {
-// 		//bad
-// 	}
-// 	application.folders[title] = folder{}
+// folder ui struct
+type FoldersLayoutParts struct {
+	EnclosingLayout *tview.Flex
+	InnerList       *tview.List
+	BottomRowLayout *tview.Flex
+	ButtonLayout    *tview.Flex
+	PromptLayout    *tview.Flex
+}
 
-// }
-// func addEntry(title string) {
-// 	//check if folder exists
-// 	//check if entry exists in folder
-// }
-// func addField(title string, value string, hide bool) {
-// 	//check if folder exists
-// 	//check if entry exists in folder
-// 	//add to entries
-// }
+type EntriesLayoutParts struct {
+	EnclosingLayout *tview.Flex
+	InnerList       *tview.List
+	BottomRowLayout *tview.Flex
+	ButtonLayout    *tview.Flex
+	PromptLayout    *tview.Flex
+}
+type FieldsLayoutParts struct {
+	EnclosingLayout *tview.Flex
+	InnerList       *tview.List
+	BottomRowLayout *tview.Flex
+	ButtonLayout    *tview.Flex
+	PromptLayout    *tview.Flex
+}
