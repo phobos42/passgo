@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/phobos42/passgo/json"
 	"github.com/phobos42/passgo/ui"
 	types "github.com/phobos42/passgo/utils"
 )
@@ -12,7 +13,8 @@ type passgo struct {
 var application passgo
 
 func main() {
-	ingestJSON()
+	application.folders = new(types.Container)
+	json.IngestJSON(application.folders)
 	// exportJSON()
 
 	view := ui.InitView(application.folders)

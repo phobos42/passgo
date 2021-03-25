@@ -1,4 +1,4 @@
-package main
+package json
 
 import (
 	"encoding/json"
@@ -8,7 +8,7 @@ import (
 )
 
 //ingest json from file into data structure
-func ingestJSON() {
+func IngestJSON(root *types.Container) {
 	var err error
 	var jsonB []byte
 
@@ -18,18 +18,18 @@ func ingestJSON() {
 	}
 
 	//var myfolders allfolders
-	err = json.Unmarshal(jsonB, &application.folders)
+	err = json.Unmarshal(jsonB, &root)
 	if err != nil {
 		panic(err)
 	}
 }
 
 //export current data structure as json file
-func exportJSON() {
+func ExportJSON(root *types.Container) {
 	var err error
 	var jsonB []byte
 
-	jsonB, err = json.MarshalIndent(application.folders, "", "\t")
+	jsonB, err = json.MarshalIndent(root, "", "\t")
 
 	if err != nil {
 		panic(err)
