@@ -1,54 +1,152 @@
 {
-	"folder1": {
-		"place1": {
-			"0": {
-				"Title": "stuff",
-				"Value": "myvalue",
-				"Hide": false
-			},
-			"1": {
-				"Title": "asdf",
-				"Value": "pass",
-				"Hide": true
-			}
+	"Title": "Root Container",
+	"Entries": [],
+	"Containers": [
+		{
+			"Title": "container1 title",
+			"Entries": [
+				{
+					"Title": "entry1 title",
+					"Items": [
+						{
+							"Type": "type",
+							"Title": "item1",
+							"Value": "value"
+						},
+						{
+							"Type": "type",
+							"Title": "item2",
+							"Value": "value"
+						}
+					]
+				},
+				{
+					"Title": "entry2 title",
+					"Items": [
+						{
+							"Type": "type",
+							"Title": "item3",
+							"Value": "value"
+						},
+						{
+							"Type": "type",
+							"Title": "item4",
+							"Value": "value"
+						}
+					]
+				}
+			],
+			"Containers": [
+				{
+					"Title": "nested contianer1 title",
+					"Entries": [
+						{
+							"Title": "entry3 title",
+							"Items": [
+								{
+									"Type": "type",
+									"Title": "item4",
+									"Value": "value"
+								},
+								{
+									"Type": "type",
+									"Title": "item5",
+									"Value": "value"
+								}
+							]
+						},
+						{
+							"Title": "entry4 title",
+							"Items": [
+								{
+									"Type": "type",
+									"Title": "item6",
+									"Value": "value"
+								},
+								{
+									"Type": "type",
+									"Title": "item7",
+									"Value": "value"
+								}
+							]
+						}
+					],
+					"Containers": []
+				}
+			]
 		},
-		"place2": {
-			"0": {
-				"Title": "stuff",
-				"Value": "myvalue",
-				"Hide": false
-			},
-			"1": {
-				"Title": "asdf",
-				"Value": "pass",
-				"Hide": true
-			}
+		{
+			"Title": "container1 title",
+			"Entries": [
+				{
+					"Title": "entry1 title",
+					"Items": [
+						{
+							"Type": "type",
+							"Title": "item1",
+							"Value": "value"
+						},
+						{
+							"Type": "type",
+							"Title": "item2",
+							"Value": "value"
+						}
+					]
+				},
+				{
+					"Title": "entry2 title",
+					"Items": [
+						{
+							"Type": "type",
+							"Title": "item3",
+							"Value": "value"
+						},
+						{
+							"Type": "type",
+							"Title": "item4",
+							"Value": "value"
+						}
+					]
+				}
+			],
+			"Containers": [
+				{
+					"Title": "nested contianer1 title",
+					"Entries": [
+						{
+							"Title": "entry3 title",
+							"Items": [
+								{
+									"Type": "type",
+									"Title": "item4",
+									"Value": "value"
+								},
+								{
+									"Type": "type",
+									"Title": "item5",
+									"Value": "value"
+								}
+							]
+						},
+						{
+							"Title": "entry4 title",
+							"Items": [
+								{
+									"Type": "type",
+									"Title": "item6",
+									"Value": "value"
+								},
+								{
+									"Type": "type",
+									"Title": "item7",
+									"Value": "value"
+								}
+							]
+						}
+					],
+					"Containers": []
+				}
+			]
 		}
-	},
-	"folder2": {
-		"place3": {
-			"0": {
-				"Title": "stuff",
-				"Value": "myvalue",
-				"Hide": false
-			},
-			"1": {
-				"Title": "asdf",
-				"Value": "pass",
-				"Hide": true
-			}
-		},
-		"place4": {
-			"0": {
-				"Title": "stuff",
-				"Value": "myvalue",
-				"Hide": false
-			},
-			"1": {
-				"Title": "asdf",
-				"Value": "pass",
-				"Hide": true
-			}
-		}
-	}
+	]
 }

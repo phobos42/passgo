@@ -1,4 +1,4 @@
-package uiparts
+package ui
 
 import (
 	"crypto/sha256"
