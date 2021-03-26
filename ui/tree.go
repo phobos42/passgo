@@ -68,7 +68,7 @@ func addItem(parentNode *tview.TreeNode, reference interface{}) string {
 			t.Entries = append(t.Entries, obj)
 			fillTree(parentNode, obj)
 		default:
-			//cant happen
+			//can't happen unless reference is an item.
 		}
 	default:
 		return "Selected Node was not a Container"
