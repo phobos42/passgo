@@ -1,7 +1,6 @@
 package ui
 
 import (
-	"github.com/phobos42/passgo/json"
 	types "github.com/phobos42/passgo/utils"
 	"github.com/rivo/tview"
 )
@@ -14,6 +13,10 @@ type View struct {
 	dataRoot      *types.Container
 	infoBox       *tview.TextView
 	utilityButton *tview.Button
+	newButton     *tview.Button
+	mainView      *tview.Flex
+	pages         *tview.Pages
+	menuForm      *tview.Form
 }
 
 func InitView(data *types.Container) *View {
@@ -23,7 +26,11 @@ func InitView(data *types.Container) *View {
 		dataRoot:      data,
 		infoBox:       tview.NewTextView(),
 		utilityButton: tview.NewButton("util"),
+		newButton:     tview.NewButton("New"),
+		mainView:      tview.NewFlex(),
+		pages:         tview.NewPages(),
 	}
+	view.newButton.SetSelectedFunc(func() { createMenu(view) })
 	view.utilityButton.SetSelectedFunc(func() { runUtil(view) })
 	setupTree(view)
 	return view
@@ -33,13 +40,18 @@ func ShowUI(v *View) {
 	bottomBar := tview.NewFlex()
 	bottomBar.SetDirection(tview.FlexColumn)
 	bottomBar.AddItem(v.utilityButton, 0, btnSize1, false)
+	bottomBar.AddItem(v.newButton, 0, btnSize1, false)
 	bottomBar.AddItem(v.infoBox, 0, 90, false)
 
-	mainView := tview.NewFlex()
-	mainView.SetDirection(tview.FlexRow)
-	mainView.AddItem(v.tree, 0, 99, true)
-	mainView.AddItem(bottomBar, 1, 1, false)
-	v.app.SetRoot(mainView, true)
+	//Setup main view
+	v.mainView.SetDirection(tview.FlexRow)
+	v.mainView.AddItem(v.tree, 0, 99, true)
+	v.mainView.AddItem(bottomBar, 1, 1, false)
+
+	//Create pages
+	v.pages.AddPage("mainView", v.mainView, true, true)
+
+	v.app.SetRoot(v.pages, true)
 	v.app.EnableMouse(true)
 }
 
@@ -50,18 +62,10 @@ func RunUI(v *View) {
 }
 
 func runUtil(v *View) {
-	//can I get a reference to a single node?
+	//util button for testing
+}
 
-	//need to add new thing to current node.
-
-	//new container or new entry
-	newthing := types.Container{Title: "New Container", Entries: []types.Entry{}, Containers: []types.Container{}}
-	//newthing := types.Entry{Title: "New Entry", Items: []types.Item{}}
-
-	currentNode := v.tree.GetCurrentNode().SetExpanded(true)
-	//add container or entry to selected node.
-	v.infoBox.SetText(addItem(currentNode, newthing))
-
-	json.ExportJSON(v.dataRoot)
-	v.app.SetFocus(v.tree)
+//switch to main page
+func switchToMain(v *View) {
+	v.pages.SwitchToPage("mainView")
 }
