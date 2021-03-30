@@ -17,8 +17,8 @@ func main() {
 	json.IngestJSON(application.folders)
 	// exportJSON()
 
-	view := ui.InitView(application.folders)
+	ui.InitView(application.folders)
 
-	ui.ShowUI(view)
-	ui.RunUI(view)
+	ui.ShowUI()
+	ui.RunUI()
 }

@@ -12,13 +12,13 @@ const (
 
 var creationTypes = []string{"Container", "Entry"}
 
-func createMenu(v *View) {
-
+func createMenu() {
+	var v = thisView
 	menu := tview.NewForm().
 		AddInputField(titleLabel, "", 20, nil, nil).
 		AddDropDown(typeLabel, creationTypes, 0, nil).
-		AddButton("Cancel", func() { switchToMain(v) }).
-		AddButton("Create", func() { createNewItem(v) })
+		AddButton("Cancel", func() { switchToMain() }).
+		AddButton("Create", func() { createNewItem() })
 	menu.SetBorder(true).SetTitle("Menu")
 
 	v.menuForm = menu
@@ -28,8 +28,8 @@ func createMenu(v *View) {
 
 }
 
-func createNewItem(v *View) {
-
+func createNewItem() {
+	var v = thisView
 	//get form values
 	title := v.menuForm.GetFormItemByLabel(titleLabel).(*tview.InputField).GetText()
 	idx, _ := v.menuForm.GetFormItemByLabel(typeLabel).(*tview.DropDown).GetCurrentOption()
@@ -46,5 +46,5 @@ func createNewItem(v *View) {
 	if r := addItem(currentNode, newthing); r != "" {
 		v.infoBox.SetText(r)
 	}
-	switchToMain(v)
+	switchToMain()
 }
