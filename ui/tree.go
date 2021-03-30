@@ -54,6 +54,7 @@ func fillTree(target *tview.TreeNode, reference interface{}) {
 	target.AddChild(node)
 }
 
+//adds an item to both the ui tree and underlying data structure(defined in types)
 func addItem(parentNode *tview.TreeNode, reference interface{}) string {
 
 	//add new reference to tree and datastructure
@@ -76,12 +77,12 @@ func addItem(parentNode *tview.TreeNode, reference interface{}) string {
 	return ""
 }
 
-//called when a container is selected
+//called when a container in the ui tree is selected
 func containerSelected(n *tview.TreeNode) {
 	n.SetExpanded(!n.IsExpanded())
 }
 
-//called when an item is selected
+//called when an item in the ui tree is selected
 func itemSelected(reference interface{}) {
 	switch reference.(type) {
 	case types.Item:

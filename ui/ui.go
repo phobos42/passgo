@@ -22,6 +22,7 @@ type View struct {
 	menuForm   *tview.Form
 }
 
+//InitView creates an instance of View
 func InitView(data *types.Container) *View {
 	view := &View{
 		app:        tview.NewApplication(),
@@ -41,6 +42,7 @@ func InitView(data *types.Container) *View {
 	return view
 }
 
+//ShowUI is called by main to create the initial tui layout
 func ShowUI(v *View) {
 	bottomBar := tview.NewFlex()
 	bottomBar.SetDirection(tview.FlexColumn)
@@ -70,12 +72,14 @@ func createModel(p tview.Primitive, width, height int) tview.Primitive {
 		AddItem(nil, 0, 1, false)
 }
 
+//RunUI is called by main for the initial TUI startup
 func RunUI(v *View) {
 	if err := v.app.Run(); err != nil {
 		panic(err)
 	}
 }
 
+//stopApp will save data and exit the app
 func stopApp(v *View) {
 	//util button for testing
 	//try saving
@@ -83,7 +87,7 @@ func stopApp(v *View) {
 	os.Exit(0)
 }
 
-//switch to main page
+//switch to switch to main ui page with tree focused
 func switchToMain(v *View) {
 	//remove any floating menu that exists
 	v.pages.RemovePage("modal")
