@@ -24,20 +24,12 @@ func createMenu(v *View) {
 	v.menuForm = menu
 	model := createModel(menu, 40, 10)
 	v.pages.AddPage("modal", model, true, true)
+	v.app.SetFocus(v.menuForm)
 
-}
-
-func createModel(p tview.Primitive, width, height int) tview.Primitive {
-	return tview.NewFlex().
-		AddItem(nil, 0, 1, false).
-		AddItem(tview.NewFlex().SetDirection(tview.FlexRow).
-			AddItem(nil, 0, 1, false).
-			AddItem(p, height, 1, false).
-			AddItem(nil, 0, 1, false), width, 1, false).
-		AddItem(nil, 0, 1, false)
 }
 
 func createNewItem(v *View) {
+
 	//get form values
 	title := v.menuForm.GetFormItemByLabel(titleLabel).(*tview.InputField).GetText()
 	idx, _ := v.menuForm.GetFormItemByLabel(typeLabel).(*tview.DropDown).GetCurrentOption()
@@ -50,7 +42,7 @@ func createNewItem(v *View) {
 	}
 
 	currentNode := v.tree.GetCurrentNode().SetExpanded(true)
-	//v.infoBox.SetText(addItem(currentNode, newthing))
+
 	if r := addItem(currentNode, newthing); r != "" {
 		v.infoBox.SetText(r)
 	}

@@ -14,6 +14,7 @@ type View struct {
 	infoBox       *tview.TextView
 	utilityButton *tview.Button
 	newButton     *tview.Button
+	editButton    *tview.Button
 	mainView      *tview.Flex
 	pages         *tview.Pages
 	menuForm      *tview.Form
@@ -27,10 +28,12 @@ func InitView(data *types.Container) *View {
 		infoBox:       tview.NewTextView(),
 		utilityButton: tview.NewButton("util"),
 		newButton:     tview.NewButton("New"),
+		editButton:    tview.NewButton("Edit"),
 		mainView:      tview.NewFlex(),
 		pages:         tview.NewPages(),
 	}
 	view.newButton.SetSelectedFunc(func() { createMenu(view) })
+	view.editButton.SetSelectedFunc(func() { editTitleMenu(view) })
 	view.utilityButton.SetSelectedFunc(func() { runUtil(view) })
 	setupTree(view)
 	return view
@@ -41,6 +44,7 @@ func ShowUI(v *View) {
 	bottomBar.SetDirection(tview.FlexColumn)
 	bottomBar.AddItem(v.utilityButton, 0, btnSize1, false)
 	bottomBar.AddItem(v.newButton, 0, btnSize1, false)
+	bottomBar.AddItem(v.editButton, 0, btnSize1, false)
 	bottomBar.AddItem(v.infoBox, 0, 90, false)
 
 	//Setup main view
@@ -53,6 +57,15 @@ func ShowUI(v *View) {
 
 	v.app.SetRoot(v.pages, true)
 	v.app.EnableMouse(true)
+}
+func createModel(p tview.Primitive, width, height int) tview.Primitive {
+	return tview.NewFlex().
+		AddItem(nil, 0, 1, false).
+		AddItem(tview.NewFlex().SetDirection(tview.FlexRow).
+			AddItem(nil, 0, 1, false).
+			AddItem(p, height, 1, false).
+			AddItem(nil, 0, 1, false), width, 1, false).
+		AddItem(nil, 0, 1, false)
 }
 
 func RunUI(v *View) {
@@ -68,4 +81,5 @@ func runUtil(v *View) {
 //switch to main page
 func switchToMain(v *View) {
 	v.pages.SwitchToPage("mainView")
+
 }
