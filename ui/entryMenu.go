@@ -17,7 +17,12 @@ func createEntryMenu() {
 		itemForm := tview.NewForm()
 		itemForm.SetHorizontal(true)
 
-		ref := items[item].GetReference().(types.Item)
+		if _, err := items[item].GetReference().(*types.Item); !err {
+			v.infoBox.SetText("Recieved bad type for an item")
+			return
+		}
+		//safe to cast after check
+		ref := items[item].GetReference().(*types.Item)
 		itemType := ref.Type
 		title := ref.Title
 		value := ref.Value
@@ -26,10 +31,19 @@ func createEntryMenu() {
 			itemForm.AddInputField(title, value, 30, nil, nil)
 			itemForm.AddButton("Save", func() { ref.Value = (itemForm.GetFormItemByLabel(title).(*tview.InputField)).GetText() })
 			itemForm.AddButton("Revert", func() { (itemForm.GetFormItemByLabel(title).(*tview.InputField)).SetText(ref.Value) })
+			itemForm.AddButton("Copy", func() { writeToClipboard(itemForm.GetFormItemByLabel(title).(*tview.InputField).GetText()) })
 		case "password":
 			itemForm.AddPasswordField(title, value, 30, '*', nil)
-			itemForm.AddButton("Save", func() {})
-			itemForm.AddButton("Revert", func() {})
+			itemForm.AddCheckbox("Show", false, func(checked bool) {
+				if checked {
+					itemForm.GetFormItemByLabel(title).(*tview.InputField).SetMaskCharacter(0)
+				} else {
+					itemForm.GetFormItemByLabel(title).(*tview.InputField).SetMaskCharacter('*')
+				}
+			})
+			itemForm.AddButton("Save", func() { ref.Value = (itemForm.GetFormItemByLabel(title).(*tview.InputField)).GetText() })
+			itemForm.AddButton("Revert", func() { (itemForm.GetFormItemByLabel(title).(*tview.InputField)).SetText(ref.Value) })
+			itemForm.AddButton("Copy", func() { writeToClipboard(itemForm.GetFormItemByLabel(title).(*tview.InputField).GetText()) })
 		default:
 			v.infoBox.SetText("Unhandled Item type found...")
 		}

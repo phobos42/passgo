@@ -3,6 +3,7 @@ package ui
 import (
 	"os"
 
+	"github.com/atotto/clipboard"
 	"github.com/phobos42/passgo/json"
 	types "github.com/phobos42/passgo/utils"
 	"github.com/rivo/tview"
@@ -115,4 +116,10 @@ func switchToMain() {
 		panic(err)
 	}
 	v.pages.SwitchToPage("mainView")
+}
+
+func writeToClipboard(str string) {
+	if err := clipboard.WriteAll(str); err != nil {
+		thisView.infoBox.SetText(err.Error())
+	}
 }
