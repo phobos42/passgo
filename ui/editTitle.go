@@ -31,9 +31,9 @@ func editTitle() {
 	currentNode := v.tree.GetCurrentNode()
 	reference := currentNode.GetReference()
 	switch t := reference.(type) {
-	case types.Container:
+	case *types.Container:
 		t.Title = newTitle
-	case types.Entry:
+	case *types.Entry:
 		t.Title = newTitle
 	default:
 		v.infoBox.SetText("Edit Items in Entry menu")
