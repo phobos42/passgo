@@ -9,12 +9,12 @@
 					"Title": "entry1 title",
 					"Items": [
 						{
-							"Type": "type",
+							"Type": "text",
 							"Title": "item1",
 							"Value": "value"
 						},
 						{
-							"Type": "type",
+							"Type": "password",
 							"Title": "item2",
 							"Value": "value"
 						}
@@ -24,12 +24,12 @@
 					"Title": "entry2 title",
 					"Items": [
 						{
-							"Type": "type",
+							"Type": "text",
 							"Title": "item3",
 							"Value": "value"
 						},
 						{
-							"Type": "type",
+							"Type": "password",
 							"Title": "item4",
 							"Value": "value"
 						}
@@ -44,12 +44,12 @@
 							"Title": "entry3 title",
 							"Items": [
 								{
-									"Type": "type",
+									"Type": "text",
 									"Title": "item4",
 									"Value": "value"
 								},
 								{
-									"Type": "type",
+									"Type": "text",
 									"Title": "item5",
 									"Value": "value"
 								}
@@ -59,12 +59,12 @@
 							"Title": "entry4 title",
 							"Items": [
 								{
-									"Type": "type",
+									"Type": "text",
 									"Title": "item6",
 									"Value": "value"
 								},
 								{
-									"Type": "type",
+									"Type": "text",
 									"Title": "item7",
 									"Value": "value"
 								}
@@ -82,12 +82,12 @@
 					"Title": "entry1 title",
 					"Items": [
 						{
-							"Type": "type",
+							"Type": "text",
 							"Title": "item1",
 							"Value": "value"
 						},
 						{
-							"Type": "type",
+							"Type": "text",
 							"Title": "item2",
 							"Value": "value"
 						}
@@ -97,12 +97,12 @@
 					"Title": "entry2 title",
 					"Items": [
 						{
-							"Type": "type",
+							"Type": "text",
 							"Title": "item3",
 							"Value": "value"
 						},
 						{
-							"Type": "type",
+							"Type": "text",
 							"Title": "item4",
 							"Value": "value"
 						}
@@ -117,12 +117,12 @@
 							"Title": "entry3 title",
 							"Items": [
 								{
-									"Type": "type",
+									"Type": "text",
 									"Title": "item4",
 									"Value": "value"
 								},
 								{
-									"Type": "type",
+									"Type": "text",
 									"Title": "item5",
 									"Value": "value"
 								}
@@ -132,12 +132,12 @@
 							"Title": "entry4 title",
 							"Items": [
 								{
-									"Type": "type",
+									"Type": "text",
 									"Title": "item6",
 									"Value": "value"
 								},
 								{
-									"Type": "type",
+									"Type": "text",
 									"Title": "item7",
 									"Value": "value"
 								}

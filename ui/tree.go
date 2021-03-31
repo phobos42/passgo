@@ -8,7 +8,8 @@ import (
 	"github.com/rivo/tview"
 )
 
-func setupTree(v *View) {
+func setupTree() {
+	var v = thisView
 	v.tree.SetBorder(true).SetTitle("Passgo")
 	root := tview.NewTreeNode(v.dataRoot.Title)
 	root.SetSelectedFunc(func() { containerSelected(root) }).SetReference(v.dataRoot)
@@ -100,6 +101,7 @@ func entrySelected(reference interface{}, n *tview.TreeNode) {
 		//check if node is already expanced
 		if n.IsExpanded() {
 			//open floating dialog with item in list
+			createEntryMenu()
 			n.SetExpanded(false)
 		} else {
 			n.SetExpanded(true)

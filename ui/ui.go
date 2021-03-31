@@ -3,12 +3,17 @@ package ui
 import (
 	"os"
 
+	"github.com/atotto/clipboard"
 	"github.com/phobos42/passgo/json"
 	types "github.com/phobos42/passgo/utils"
 	"github.com/rivo/tview"
 )
 
-const btnSize1 = 5
+const (
+	btnSize1 = 5
+	btnSize2 = 10
+	btnSize3 = 16
+)
 
 type View struct {
 	app        *tview.Application
@@ -21,6 +26,7 @@ type View struct {
 	mainView   *tview.Flex
 	pages      *tview.Pages
 	menuForm   *tview.Form
+	menuFlex   *tview.Flex
 }
 
 var thisView *View
@@ -39,19 +45,23 @@ func InitView(data *types.Container) *View {
 		pages:      tview.NewPages(),
 	}
 	thisView = view
-	view.newButton.SetSelectedFunc(func() { createMenu(view) })
-	view.editButton.SetSelectedFunc(func() { editTitleMenu(view) })
-	view.exitButton.SetSelectedFunc(func() { stopApp(view) })
-	setupTree(view)
+	view.newButton.SetSelectedFunc(func() { createMenu() })
+	view.editButton.SetSelectedFunc(func() { editTitleMenu() })
+	view.exitButton.SetSelectedFunc(func() { stopApp() })
+	setupTree()
+
 	return view
 }
 
 //ShowUI is called by main to create the initial tui layout
-func ShowUI(v *View) {
+func ShowUI() {
+	var v = thisView
 	bottomBar := tview.NewFlex()
 	bottomBar.SetDirection(tview.FlexColumn)
 	bottomBar.AddItem(v.exitButton, 0, btnSize1, false)
+	bottomBar.AddItem(nil, 1, 1, false)
 	bottomBar.AddItem(v.newButton, 0, btnSize1, false)
+	bottomBar.AddItem(nil, 1, 1, false)
 	bottomBar.AddItem(v.editButton, 0, btnSize1, false)
 	bottomBar.AddItem(v.infoBox, 0, 90, false)
 
@@ -77,14 +87,16 @@ func createModel(p tview.Primitive, width, height int) tview.Primitive {
 }
 
 //RunUI is called by main for the initial TUI startup
-func RunUI(v *View) {
+func RunUI() {
+	var v = thisView
 	if err := v.app.Run(); err != nil {
 		panic(err)
 	}
 }
 
 //stopApp will save data and exit the app
-func stopApp(v *View) {
+func stopApp() {
+	var v = thisView
 	//util button for testing
 	//try saving
 	json.ExportJSON(v.dataRoot)
@@ -93,7 +105,8 @@ func stopApp(v *View) {
 }
 
 //switch to switch to main ui page with tree focused
-func switchToMain(v *View) {
+func switchToMain() {
+	var v = thisView
 	//remove any floating menu that exists
 	v.pages.RemovePage("modal")
 	//app must be stop to change focus back to tree
@@ -103,4 +116,10 @@ func switchToMain(v *View) {
 		panic(err)
 	}
 	v.pages.SwitchToPage("mainView")
+}
+
+func writeToClipboard(str string) {
+	if err := clipboard.WriteAll(str); err != nil {
+		thisView.infoBox.SetText(err.Error())
+	}
 }

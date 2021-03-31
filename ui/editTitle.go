@@ -9,11 +9,12 @@ const (
 	newTitleLabel = "New Title:"
 )
 
-func editTitleMenu(v *View) {
+func editTitleMenu() {
+	var v = thisView
 	menu := tview.NewForm().
 		AddInputField(newTitleLabel, "", 20, nil, nil).
-		AddButton("Cancel", func() { switchToMain(v) }).
-		AddButton("Submit Change", func() { editTitle(v) })
+		AddButton("Cancel", func() { switchToMain() }).
+		AddButton("Submit Change", func() { editTitle() })
 	menu.SetBorder(true).SetTitle("Edit Title Menu")
 
 	v.menuForm = menu
@@ -22,23 +23,24 @@ func editTitleMenu(v *View) {
 	v.app.SetFocus(v.menuForm)
 }
 
-func editTitle(v *View) {
+func editTitle() {
+	var v = thisView
 	//get form values
 	newTitle := v.menuForm.GetFormItemByLabel(newTitleLabel).(*tview.InputField).GetText()
 
 	currentNode := v.tree.GetCurrentNode()
 	reference := currentNode.GetReference()
 	switch t := reference.(type) {
-	case types.Container:
+	case *types.Container:
 		t.Title = newTitle
-	case types.Entry:
+	case *types.Entry:
 		t.Title = newTitle
 	default:
 		v.infoBox.SetText("Edit Items in Entry menu")
-		switchToMain(v)
+		switchToMain()
 		return
 	}
 	currentNode.SetText(newTitle)
 
-	switchToMain(v)
+	switchToMain()
 }
