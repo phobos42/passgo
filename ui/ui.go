@@ -3,6 +3,7 @@ package ui
 import (
 	"os"
 
+	"github.com/phobos42/passgo/json"
 	types "github.com/phobos42/passgo/utils"
 	"github.com/rivo/tview"
 )
@@ -22,6 +23,8 @@ type View struct {
 	menuForm   *tview.Form
 }
 
+var thisView *View
+
 //InitView creates an instance of View
 func InitView(data *types.Container) *View {
 	view := &View{
@@ -35,6 +38,7 @@ func InitView(data *types.Container) *View {
 		mainView:   tview.NewFlex(),
 		pages:      tview.NewPages(),
 	}
+	thisView = view
 	view.newButton.SetSelectedFunc(func() { createMenu(view) })
 	view.editButton.SetSelectedFunc(func() { editTitleMenu(view) })
 	view.exitButton.SetSelectedFunc(func() { stopApp(view) })
@@ -83,6 +87,7 @@ func RunUI(v *View) {
 func stopApp(v *View) {
 	//util button for testing
 	//try saving
+	json.ExportJSON(v.dataRoot)
 	v.app.Stop()
 	os.Exit(0)
 }
