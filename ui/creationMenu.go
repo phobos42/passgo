@@ -36,12 +36,21 @@ func createNewItem() {
 	var newthing interface{}
 	switch idx {
 	case 0:
-		newthing = types.Container{Title: title, Entries: []types.Entry{}, Containers: []types.Container{}}
+		newthing = &types.Container{Title: title, Entries: []*types.Entry{}, Containers: []*types.Container{}}
 	case 1:
-		newthing = types.Entry{Title: title, Items: []types.Item{}}
+		newthing = &types.Entry{Title: title, Items: []*types.Item{}}
 	}
 
-	currentNode := v.tree.GetCurrentNode().SetExpanded(true)
+	// newthing := &types.Container{Title: title, Entries: []*types.Entry{}, Containers: []*types.Container{}}
+	currentNode := v.tree.GetCurrentNode()
+	currentNode.SetExpanded(true)
+
+	// // //add to internal tree
+	// container := currentNode.GetReference().(**types.Container)
+	// (*container).Containers = append((*container).Containers, newthing)
+	// lastidx := len((*container).Containers) - 1
+	// v.infoBox.SetText(fmt.Sprintf("p:%p c:%p\n", (*container).Containers[lastidx], newthing))
+	// fillTree(currentNode, &newthing)
 
 	if r := addItem(currentNode, newthing); r != "" {
 		v.infoBox.SetText(r)

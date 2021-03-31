@@ -46,9 +46,9 @@ func ExportJSON(root *types.Container) {
 func createJSON() *types.Container {
 	item1 := types.Item{"type", "title", "value"}
 
-	entry1 := types.Entry{"entry title", []types.Item{item1, item1}}
+	entry1 := types.Entry{"entry title", []*types.Item{&item1, &item1}}
 
-	container1 := types.Container{"container title", []types.Entry{entry1, entry1}, []types.Container{}}
+	container1 := types.Container{"container title", []*types.Entry{&entry1, &entry1}, []*types.Container{}}
 
 	return &container1
 }

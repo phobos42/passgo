@@ -17,12 +17,12 @@ func createEntryMenu() {
 		itemForm := tview.NewForm()
 		itemForm.SetHorizontal(true)
 
-		if _, err := items[item].GetReference().(*types.Item); !err {
+		if _, err := items[item].GetReference().(**types.Item); !err {
 			v.infoBox.SetText("Recieved bad type for an item")
 			return
 		}
 		//safe to cast after check
-		ref := items[item].GetReference().(*types.Item)
+		ref := *items[item].GetReference().(**types.Item)
 		itemType := ref.Type
 		title := ref.Title
 		value := ref.Value
