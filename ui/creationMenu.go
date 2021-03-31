@@ -14,11 +14,21 @@ var creationTypes = []string{"Container", "Entry"}
 
 func createMenu() {
 	var v = thisView
+	clearInfoBox()
+	//Check that selected node is a Container
+	cn := v.tree.GetCurrentNode().GetReference()
+
+	if _, err := cn.(**types.Container); !err {
+		v.infoBox.SetText("Selected node is not a Container")
+		switchToMain()
+		return
+	}
+
 	menu := tview.NewForm().
 		AddInputField(titleLabel, "", 20, nil, nil).
 		AddDropDown(typeLabel, creationTypes, 0, nil).
 		AddButton("Cancel", func() { switchToMain() }).
-		AddButton("Create", func() { createNewItem() })
+		AddButton("Create", func() { createNewEntryOrContainer() })
 	menu.SetBorder(true).SetTitle("Menu")
 
 	v.menuForm = menu
@@ -28,7 +38,7 @@ func createMenu() {
 
 }
 
-func createNewItem() {
+func createNewEntryOrContainer() {
 	var v = thisView
 	//get form values
 	title := v.menuForm.GetFormItemByLabel(titleLabel).(*tview.InputField).GetText()
@@ -36,12 +46,12 @@ func createNewItem() {
 	var newthing interface{}
 	switch idx {
 	case 0:
-		newthing = types.Container{Title: title, Entries: []types.Entry{}, Containers: []types.Container{}}
+		newthing = &types.Container{Title: title, Entries: []*types.Entry{}, Containers: []*types.Container{}}
 	case 1:
-		newthing = types.Entry{Title: title, Items: []types.Item{}}
+		newthing = &types.Entry{Title: title, Items: []*types.Item{}}
 	}
-
-	currentNode := v.tree.GetCurrentNode().SetExpanded(true)
+	currentNode := v.tree.GetCurrentNode()
+	currentNode.SetExpanded(true)
 
 	if r := addItem(currentNode, newthing); r != "" {
 		v.infoBox.SetText(r)

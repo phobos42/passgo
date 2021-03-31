@@ -40,7 +40,7 @@ func InitView(data *types.Container) *View {
 		infoBox:    tview.NewTextView(),
 		exitButton: tview.NewButton("Exit"),
 		newButton:  tview.NewButton("New"),
-		editButton: tview.NewButton("Edit"),
+		editButton: tview.NewButton("Edit Title"),
 		mainView:   tview.NewFlex(),
 		pages:      tview.NewPages(),
 	}
@@ -62,7 +62,8 @@ func ShowUI() {
 	bottomBar.AddItem(nil, 1, 1, false)
 	bottomBar.AddItem(v.newButton, 0, btnSize1, false)
 	bottomBar.AddItem(nil, 1, 1, false)
-	bottomBar.AddItem(v.editButton, 0, btnSize1, false)
+	bottomBar.AddItem(v.editButton, 0, btnSize2, false)
+	bottomBar.AddItem(nil, 1, 1, false)
 	bottomBar.AddItem(v.infoBox, 0, 90, false)
 
 	//Setup main view
@@ -122,4 +123,7 @@ func writeToClipboard(str string) {
 	if err := clipboard.WriteAll(str); err != nil {
 		thisView.infoBox.SetText(err.Error())
 	}
+}
+func clearInfoBox() {
+	thisView.infoBox.SetText("")
 }
