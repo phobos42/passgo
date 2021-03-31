@@ -62,10 +62,10 @@ func addItem(parentNode *tview.TreeNode, reference interface{}) string {
 
 	ref := parentNode.GetReference()
 	switch parent := ref.(type) {
+	//parent node is a container
 	case **types.Container:
-		//parent node is a container
 		switch newObj := reference.(type) {
-		//newObj is a new child
+		//reference must be either Container or Entry
 		case *types.Container:
 			(*parent).Containers = append((*parent).Containers, newObj)
 
@@ -74,12 +74,19 @@ func addItem(parentNode *tview.TreeNode, reference interface{}) string {
 			(*parent).Entries = append((*parent).Entries, newObj)
 			fillTree(parentNode, &newObj)
 		default:
-			return "inner select bad" + reflect.TypeOf(newObj).String()
+			return "New node has bad type" + reflect.TypeOf(newObj).String()
 		}
+	//parent is an entry -> reference is an item
+	case **types.Entry:
+		if _, err := reference.(*types.Item); !err {
+			return "Can only create Item inside entry"
+		}
+		item := reference.(*types.Item)
+		(*parent).Items = append((*parent).Items, item)
+		fillTree(parentNode, &item)
 	default:
-		return "Selected Node was not a Container" + reflect.TypeOf(ref).String()
+		return "Selected Node was not a Container: " + reflect.TypeOf(ref).String()
 	}
-	//thisView.infoBox.SetText(fmt.Sprintf("p:%p c:%p\n", &ref, &reference))
 	return ""
 }
 
