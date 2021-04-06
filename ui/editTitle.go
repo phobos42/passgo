@@ -15,11 +15,12 @@ const (
 func editTitleMenu() {
 	var v = thisView
 	clearInfoBox()
+
 	menu := tview.NewForm().
 		AddInputField(newTitleLabel, "", 20, nil, nil).
 		AddButton("Cancel", func() { switchToMain() }).
 		AddButton("Submit Change", func() { editTitle() })
-	menu.SetBorder(true).SetTitle("Edit Title Menu")
+	menu.SetBorder(true).SetTitle("Edit Title Menu").SetBorderColor(v.colors.fg4).SetTitleColor(v.colors.fg0)
 
 	v.menuForm = menu
 	model := createModel(menu, 40, 10)

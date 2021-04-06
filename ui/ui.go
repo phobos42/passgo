@@ -27,6 +27,7 @@ type View struct {
 	pages      *tview.Pages
 	menuForm   *tview.Form
 	menuFlex   *tview.Flex
+	colors     *mycolors
 }
 
 var thisView *View
@@ -43,11 +44,15 @@ func InitView(data *types.Container) *View {
 		editButton: tview.NewButton("Edit Title"),
 		mainView:   tview.NewFlex(),
 		pages:      tview.NewPages(),
+		colors:     newcolors(),
 	}
 	thisView = view
 	view.newButton.SetSelectedFunc(func() { createMenu() })
+	colorButton(view.newButton)
 	view.editButton.SetSelectedFunc(func() { editTitleMenu() })
+	colorButton(view.editButton)
 	view.exitButton.SetSelectedFunc(func() { stopApp() })
+	colorButton(view.exitButton)
 	setupTree()
 
 	return view
@@ -126,4 +131,9 @@ func writeToClipboard(str string) {
 }
 func clearInfoBox() {
 	thisView.infoBox.SetText("")
+}
+
+func colorButton(btn *tview.Button) {
+	btn.SetBackgroundColor(thisView.colors.bg2)
+	btn.SetLabelColor(thisView.colors.fg0)
 }
