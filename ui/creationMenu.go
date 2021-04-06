@@ -29,7 +29,7 @@ func createMenu() {
 		AddDropDown(typeLabel, creationTypes, 0, nil).
 		AddButton("Cancel", func() { switchToMain() }).
 		AddButton("Create", func() { createNewEntryOrContainer() })
-	menu.SetBorder(true).SetTitle("Menu")
+	menu.SetBorder(true).SetTitle("Menu").SetBorderColor(v.colors.fg4).SetTitleColor(v.colors.fg0)
 
 	v.menuForm = menu
 	model := createModel(menu, 40, 10)

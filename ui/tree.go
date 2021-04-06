@@ -10,8 +10,10 @@ import (
 
 func setupTree() {
 	var v = thisView
-	v.tree.SetBorder(true).SetTitle("Passgo")
+	v.tree.SetBorder(true).SetTitle("Passgo").SetBorderColor(v.colors.fg4).SetTitleColor(v.colors.fg0)
 	root := tview.NewTreeNode(v.dataRoot.Title)
+	root.SetColor(v.colors.green)
+
 	root.SetSelectedFunc(func() { containerSelected(root) }).SetReference(&v.dataRoot)
 	v.tree.SetRoot(root).SetCurrentNode(root)
 
@@ -31,6 +33,7 @@ func fillTree(target *tview.TreeNode, reference interface{}) {
 	case **types.Container:
 		node = tview.NewTreeNode((*t).Title).SetReference(t).SetExpanded(false)
 		node.SetSelectedFunc(func() { containerSelected(node) })
+		node.SetColor(thisView.colors.blue)
 		for entry := range (*t).Entries {
 			fillTree(node, &(*t).Entries[entry])
 		}
@@ -40,12 +43,14 @@ func fillTree(target *tview.TreeNode, reference interface{}) {
 	case **types.Entry:
 		node = tview.NewTreeNode((*t).Title).SetReference(t).SetExpanded(false)
 		node.SetSelectedFunc(func() { entrySelected(node.GetReference(), node) })
+		node.SetColor(thisView.colors.yellow)
 		for item := range (*t).Items {
 			fillTree(node, &(*t).Items[item])
 		}
 	case **types.Item:
 		node = tview.NewTreeNode((*t).Title).SetReference(t).SetExpanded(false)
 		node.SetSelectedFunc(func() { itemSelected(node.GetReference()) })
+		node.SetColor(thisView.colors.aqua)
 	default:
 		//unhandled reference type
 		// v.infoBox.SetText(reflect.TypeOf(reference).String())

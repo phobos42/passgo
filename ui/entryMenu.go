@@ -33,14 +33,14 @@ func createEntryMenu() {
 
 	outerMenu.AddItem(itemContainer, 0, 1, false)
 	outerMenu.AddItem(buttonFlex, 1, 1, false)
-	outerMenu.SetBorder(true).SetTitle("Entry Menu")
+	outerMenu.SetBorder(true).SetTitle("Entry Menu").SetBorderColor(v.colors.fg4).SetTitleColor(v.colors.fg0)
 
 	v.menuFlex = outerMenu
 	var menuWidth int
 	if len(items) == 0 {
 		menuWidth = 5
 	} else {
-		menuWidth = len(items)*4 + 1
+		menuWidth = len(items)*4 + 3
 	}
 	model := createModel(outerMenu, 100, menuWidth)
 	v.pages.AddPage("modal", model, true, true)
@@ -64,12 +64,12 @@ func fillEntriesMenu(items []*tview.TreeNode, flexContainer *tview.Flex) {
 		value := ref.Value
 		switch itemType {
 		case "text":
-			itemForm.AddInputField(title, value, 30, nil, nil)
+			itemForm.AddInputField(title, value, 30, nil, nil).SetLabelColor(thisView.colors.aqua)
 			itemForm.AddButton("Save", func() { ref.Value = (itemForm.GetFormItemByLabel(title).(*tview.InputField)).GetText() })
 			itemForm.AddButton("Revert", func() { (itemForm.GetFormItemByLabel(title).(*tview.InputField)).SetText(ref.Value) })
 			itemForm.AddButton("Copy", func() { writeToClipboard(itemForm.GetFormItemByLabel(title).(*tview.InputField).GetText()) })
 		case "password":
-			itemForm.AddPasswordField(title, value, 30, '*', nil)
+			itemForm.AddPasswordField(title, value, 30, '*', nil).SetLabelColor(thisView.colors.aqua)
 			itemForm.AddCheckbox("Show", false, func(checked bool) {
 				if checked {
 					itemForm.GetFormItemByLabel(title).(*tview.InputField).SetMaskCharacter(0)
@@ -113,7 +113,7 @@ func createNewItemMenu(parentNode *tview.TreeNode, flexContainer *tview.Flex) {
 			//remake entry menu to include new value
 			createEntryMenu()
 		})
-	menu.SetBorder(true).SetTitle("Menu")
+	menu.SetBorder(true).SetTitle("Menu").SetBorderColor(v.colors.fg4).SetTitleColor(v.colors.fg0)
 
 	v.menuForm = menu
 	model := createModel(menu, 40, 15)
