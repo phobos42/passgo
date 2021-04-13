@@ -62,9 +62,7 @@ func fillTree(target *tview.TreeNode, reference interface{}) {
 
 //adds an item to both the ui tree and underlying data structure(defined in types)
 func addItem(parentNode *tview.TreeNode, reference interface{}) string {
-	// thisView.infoBox.SetText(reflect.TypeOf(parentNode.GetReference()).String())
-	//add new reference to tree and datastructure
-
+	//add new reference to tree and data structure
 	ref := parentNode.GetReference()
 	switch parent := ref.(type) {
 	//parent node is a container
@@ -102,9 +100,9 @@ func containerSelected(n *tview.TreeNode) {
 
 //called when an item in the ui tree is selected
 func itemSelected(reference interface{}) {
-	switch reference.(type) {
+	switch ref := reference.(type) {
 	case **types.Item:
-		//copy value from item for quick access
+		writeToClipboard((**ref).Value)
 	default:
 		fmt.Println("Bad Type for Item")
 	}
@@ -113,16 +111,82 @@ func itemSelected(reference interface{}) {
 func entrySelected(reference interface{}, n *tview.TreeNode) {
 	switch reference.(type) {
 	case **types.Entry:
+		createEntryMenu()
+		n.SetExpanded(true)
 		//check if node is already expanced
-		if n.IsExpanded() {
-			//open floating dialog with item in list
-			createEntryMenu()
-			n.SetExpanded(false)
-		} else {
-			n.SetExpanded(true)
-		}
+		// if n.IsExpanded() {
+		// 	//open floating dialog with item in list
+		// 	createEntryMenu()
+		// 	n.SetExpanded(false)
+		// } else {
+		// 	n.SetExpanded(true)
+		// }
 	default:
 		fmt.Println("Bad Type for Entry")
 	}
 
+}
+
+func deleteChild(parentNode *tview.TreeNode, targetNode *tview.TreeNode) {
+	//only need to remove top level reference to delete all children
+	parentNode.RemoveChild(targetNode)
+	parent_ref := parentNode.GetReference()
+	target_ref := targetNode.GetReference()
+	//parent type
+	switch p_t := parent_ref.(type) {
+	case **types.Container:
+		//target type
+		switch t_t := target_ref.(type) {
+		case **types.Container:
+			//remove container from container
+			i := indexOfContainer((*p_t).Containers, t_t)
+			if i != -1 {
+				copy((**p_t).Containers[i:], (**p_t).Containers[i+1:])
+				(**p_t).Containers = (**p_t).Containers[:len((**p_t).Containers)-1]
+			}
+
+		case **types.Entry:
+			//remove entry from container
+			i := indexOfEntry((*p_t).Entries, t_t)
+			if i != -1 {
+				copy((**p_t).Entries[i:], (**p_t).Entries[i+1:])
+				(**p_t).Entries = (**p_t).Entries[:len((**p_t).Entries)-1]
+			}
+		}
+	case **types.Entry:
+		switch t_t := target_ref.(type) {
+		case **types.Item:
+			//remove item from entry
+			i := indexOfItem((*p_t).Items, t_t)
+			if i != -1 {
+				copy((**p_t).Items[i:], (**p_t).Items[i+1:])
+				(**p_t).Items = (**p_t).Items[:len((**p_t).Items)-1]
+			}
+		}
+	}
+}
+
+func indexOfContainer(data []*types.Container, target **types.Container) int {
+	for k, v := range data {
+		if *target == v {
+			return k
+		}
+	}
+	return -1
+}
+func indexOfEntry(data []*types.Entry, target **types.Entry) int {
+	for k, v := range data {
+		if *target == v {
+			return k
+		}
+	}
+	return -1
+}
+func indexOfItem(data []*types.Item, target **types.Item) int {
+	for k, v := range data {
+		if *target == v {
+			return k
+		}
+	}
+	return -1
 }
