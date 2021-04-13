@@ -16,35 +16,38 @@ const (
 )
 
 type View struct {
-	app        *tview.Application
-	tree       *tview.TreeView
-	dataRoot   *types.Container
-	infoBox    *tview.TextView
-	exitButton *tview.Button
-	newButton  *tview.Button
-	editButton *tview.Button
-	mainView   *tview.Flex
-	pages      *tview.Pages
-	menuForm   *tview.Form
-	menuFlex   *tview.Flex
-	colors     *mycolors
+	app          *tview.Application
+	tree         *tview.TreeView
+	dataRoot     *types.Container
+	infoBox      *tview.TextView
+	exitButton   *tview.Button
+	newButton    *tview.Button
+	editButton   *tview.Button
+	deleteButton *tview.Button
+	mainView     *tview.Flex
+	pages        *tview.Pages
+	menuForm     *tview.Form
+	menuFlex     *tview.Flex
+	colors       *mycolors
 }
 
+var currentTarget *tview.TreeNode
 var thisView *View
 
 //InitView creates an instance of View
 func InitView(data *types.Container) *View {
 	view := &View{
-		app:        tview.NewApplication(),
-		tree:       tview.NewTreeView(),
-		dataRoot:   data,
-		infoBox:    tview.NewTextView(),
-		exitButton: tview.NewButton("Exit"),
-		newButton:  tview.NewButton("New"),
-		editButton: tview.NewButton("Edit Title"),
-		mainView:   tview.NewFlex(),
-		pages:      tview.NewPages(),
-		colors:     newcolors(),
+		app:          tview.NewApplication(),
+		tree:         tview.NewTreeView(),
+		dataRoot:     data,
+		infoBox:      tview.NewTextView(),
+		exitButton:   tview.NewButton("Exit"),
+		newButton:    tview.NewButton("New"),
+		editButton:   tview.NewButton("Edit Title"),
+		deleteButton: tview.NewButton("Delete"),
+		mainView:     tview.NewFlex(),
+		pages:        tview.NewPages(),
+		colors:       newcolors(),
 	}
 	thisView = view
 	view.newButton.SetSelectedFunc(func() { createMenu() })
@@ -52,6 +55,23 @@ func InitView(data *types.Container) *View {
 	view.editButton.SetSelectedFunc(func() { editTitleMenu() })
 	colorButton(view.editButton)
 	view.exitButton.SetSelectedFunc(func() { stopApp() })
+
+	view.deleteButton.SetSelectedFunc(func() {
+		currentTarget = thisView.tree.GetCurrentNode()
+		targetNode := thisView.tree.GetCurrentNode()
+		thisView.tree.GetRoot().Walk(findParent)
+		//currentTarget gets updated to be parent node by findParent
+		if targetNode == thisView.tree.GetRoot() {
+			thisView.infoBox.SetText("cannot delete root node")
+		} else if currentTarget != targetNode {
+			createConfirmMenu(currentTarget, targetNode)
+		} else {
+			thisView.infoBox.SetText("target to delete not found")
+		}
+		switchToMain()
+	})
+
+	colorButton(view.deleteButton)
 	colorButton(view.exitButton)
 	setupTree()
 
@@ -68,6 +88,8 @@ func ShowUI() {
 	bottomBar.AddItem(v.newButton, 0, btnSize1, false)
 	bottomBar.AddItem(nil, 1, 1, false)
 	bottomBar.AddItem(v.editButton, 0, btnSize2, false)
+	bottomBar.AddItem(nil, 1, 1, false)
+	bottomBar.AddItem(v.deleteButton, 0, btnSize2, false)
 	bottomBar.AddItem(nil, 1, 1, false)
 	bottomBar.AddItem(v.infoBox, 0, 90, false)
 
@@ -136,4 +158,16 @@ func clearInfoBox() {
 func colorButton(btn *tview.Button) {
 	btn.SetBackgroundColor(thisView.colors.bg2)
 	btn.SetLabelColor(thisView.colors.fg0)
+}
+
+func findParent(node *tview.TreeNode, parent *tview.TreeNode) bool {
+	//check if currentTarget is a child of node
+	if node == currentTarget {
+		thisView.infoBox.SetText("Found")
+		currentTarget = parent
+		return false
+	} else {
+
+		return true
+	}
 }

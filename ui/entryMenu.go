@@ -21,7 +21,7 @@ func createEntryMenu() {
 	itemContainer := tview.NewFlex().
 		SetDirection(tview.FlexRow)
 
-	fillEntriesMenu(items, itemContainer)
+	fillEntriesMenu(currentNode, items, itemContainer)
 
 	buttonFlex := tview.NewFlex()
 	buttonFlex.SetDirection(tview.FlexColumn)
@@ -44,10 +44,10 @@ func createEntryMenu() {
 	}
 	model := createModel(outerMenu, 100, menuWidth)
 	v.pages.AddPage("modal", model, true, true)
-	v.app.SetFocus(v.menuFlex)
+	v.app.SetFocus(v.mainView)
 }
 
-func fillEntriesMenu(items []*tview.TreeNode, flexContainer *tview.Flex) {
+func fillEntriesMenu(currentNode *tview.TreeNode, items []*tview.TreeNode, flexContainer *tview.Flex) {
 
 	for item := range items {
 		itemForm := tview.NewForm()
@@ -68,6 +68,7 @@ func fillEntriesMenu(items []*tview.TreeNode, flexContainer *tview.Flex) {
 			itemForm.AddButton("Save", func() { ref.Value = (itemForm.GetFormItemByLabel(title).(*tview.InputField)).GetText() })
 			itemForm.AddButton("Revert", func() { (itemForm.GetFormItemByLabel(title).(*tview.InputField)).SetText(ref.Value) })
 			itemForm.AddButton("Copy", func() { writeToClipboard(itemForm.GetFormItemByLabel(title).(*tview.InputField).GetText()) })
+			itemForm.AddButton("Delete", func() { createConfirmMenu(currentNode, items[item]) })
 		case "password":
 			itemForm.AddPasswordField(title, value, 30, '*', nil).SetLabelColor(thisView.colors.aqua)
 			itemForm.AddCheckbox("Show", false, func(checked bool) {
@@ -80,6 +81,7 @@ func fillEntriesMenu(items []*tview.TreeNode, flexContainer *tview.Flex) {
 			itemForm.AddButton("Save", func() { ref.Value = (itemForm.GetFormItemByLabel(title).(*tview.InputField)).GetText() })
 			itemForm.AddButton("Revert", func() { (itemForm.GetFormItemByLabel(title).(*tview.InputField)).SetText(ref.Value) })
 			itemForm.AddButton("Copy", func() { writeToClipboard(itemForm.GetFormItemByLabel(title).(*tview.InputField).GetText()) })
+			itemForm.AddButton("Delete", func() { createConfirmMenu(currentNode, items[item]) })
 		default:
 			thisView.infoBox.SetText("Unhandled Item type found...")
 		}
