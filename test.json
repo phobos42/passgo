@@ -1,0 +1,152 @@
+{
+	"Title": "Root Container",
+	"Entries": [],
+	"Containers": [
+		{
+			"Title": "container1 title",
+			"Entries": [
+				{
+					"Title": "entry1 title",
+					"Items": [
+						{
+							"Type": "text",
+							"Title": "item1",
+							"Value": "value"
+						},
+						{
+							"Type": "password",
+							"Title": "item2",
+							"Value": "value"
+						}
+					]
+				},
+				{
+					"Title": "entry2 title",
+					"Items": [
+						{
+							"Type": "text",
+							"Title": "item3",
+							"Value": "value"
+						},
+						{
+							"Type": "password",
+							"Title": "item4",
+							"Value": "value"
+						}
+					]
+				}
+			],
+			"Containers": [
+				{
+					"Title": "nested contianer1 title",
+					"Entries": [
+						{
+							"Title": "entry3 title",
+							"Items": [
+								{
+									"Type": "text",
+									"Title": "item4",
+									"Value": "value"
+								},
+								{
+									"Type": "text",
+									"Title": "item5",
+									"Value": "value"
+								}
+							]
+						},
+						{
+							"Title": "entry4 title",
+							"Items": [
+								{
+									"Type": "text",
+									"Title": "item6",
+									"Value": "value"
+								},
+								{
+									"Type": "text",
+									"Title": "item7",
+									"Value": "value"
+								}
+							]
+						}
+					],
+					"Containers": []
+				}
+			]
+		},
+		{
+			"Title": "container1 title",
+			"Entries": [
+				{
+					"Title": "entry1 title",
+					"Items": [
+						{
+							"Type": "text",
+							"Title": "item1",
+							"Value": "value"
+						},
+						{
+							"Type": "text",
+							"Title": "item2",
+							"Value": "value"
+						}
+					]
+				},
+				{
+					"Title": "entry2 title",
+					"Items": [
+						{
+							"Type": "text",
+							"Title": "item3",
+							"Value": "value"
+						},
+						{
+							"Type": "text",
+							"Title": "item4",
+							"Value": "value"
+						}
+					]
+				}
+			],
+			"Containers": [
+				{
+					"Title": "nested contianer1 title",
+					"Entries": [
+						{
+							"Title": "entry3 title",
+							"Items": [
+								{
+									"Type": "text",
+									"Title": "item4",
+									"Value": "value"
+								},
+								{
+									"Type": "text",
+									"Title": "item5",
+									"Value": "value"
+								}
+							]
+						},
+						{
+							"Title": "entry4 title",
+							"Items": [
+								{
+									"Type": "text",
+									"Title": "item6",
+									"Value": "value"
+								},
+								{
+									"Type": "text",
+									"Title": "item7",
+									"Value": "value"
+								}
+							]
+						}
+					],
+					"Containers": []
+				}
+			]
+		}
+	]
+}
